@@ -1,25 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState,useEffect } from 'react';
 
 function App() {
+
+  const [leftPos,setLeftPos]=useState(0);
+  const [topPos,setTopPos]=useState(10);  
+
+  function move(){
+
+    let x=setInterval(()=>{
+      setLeftPos(leftPos+10)
+      setTopPos(topPos+10)
+    },1000)
+    
+    return()=>clearInterval(x)
+  }
+
+  useEffect(move,[leftPos])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="dvd_logo" style={{top:`${topPos}px`,left:`${leftPos}px`}}>
+      </div>
     </div>
   );
 }
-
 export default App;
