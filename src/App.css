@@ -1,14 +1,12 @@
 .App{
   background-color: black;
-  border:2px solid red;
-  width:80%;
-  height:80vh;
+  width:100%;
+  height:100vh;
 }
 
 .dvd_logo{
-  width:2rem;
-  height:2rem;
+  width:200px;
+  height:100px;
   background-color: white;
-
   position:absolute;
 }
