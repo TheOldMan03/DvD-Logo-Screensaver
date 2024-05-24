@@ -10,11 +10,17 @@ function App() {
   const [x,setX]=useState(2)
   const [y,setY]=useState(2)
 
-  const [width,setWidth]=useState(0)
-  const [height,setHeight]=useState(0)
+  const [xwidth,setWidth]=useState(getWindowDimensions().width)
+  const [yheight,setHeight]=useState(getWindowDimensions().height)
 
-  const [randomrgb,setRGB]=useState([255,255,255])
+  const [randomrgb,setRGB]=useState([0,0,0])
   const ref=useRef(null)
+
+
+  function getWindowDimensions(){
+    const {innerWidth:width,innerHeight:height}=window;
+    return {width,height}
+  }
 
   function randomize(){
     let r,g,b;
@@ -25,25 +31,27 @@ function App() {
     setRGB([r,g,b])
   }
 
+  //create a listener for window resize
   useEffect(()=>{
-    if(ref.current){
-      let h,w;
-      h=ref.current.clientHeight-100
-      w=ref.current.clientWidth-200
+    function handleResize(){
+      setWidth(getWindowDimensions().width-200)
+      setHeight(getWindowDimensions().height-100)
+      setLeftPos(0)
+      setTopPos(0)
 
-      console.log(height)
-
-      setHeight(h);
-      setWidth(w);
+      console.log(xwidth,yheight)
     }
-  },[height,width])
+
+    window.addEventListener('resize',handleResize)
+    return()=>window.removeEventListener('resize',handleResize)
+  },[])
   
   function move(){
 
     if(ref.current){
       let z=setInterval(()=>{
         
-        if(leftPos>=width){
+        if(leftPos>=xwidth){
           setX(-2)
           randomize()
         }
@@ -55,7 +63,7 @@ function App() {
 
         setLeftPos(leftPos+x)
 
-        if(topPos>=height){
+        if(topPos>=yheight){
           setY(-2)
           randomize()
         }
@@ -67,13 +75,13 @@ function App() {
 
         setTopPos(topPos+y)
 
-      },10)
+      },100)
       
       return()=>clearInterval(z)
     }
   }
 
-  useEffect(move,[leftPos])
+  useEffect(move,[leftPos,topPos])
 
   return (
     <div className="App" ref={ref}>
