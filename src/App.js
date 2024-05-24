@@ -10,8 +10,8 @@ function App() {
   const [x,setX]=useState(2)
   const [y,setY]=useState(2)
 
-  const [xwidth,setWidth]=useState(getWindowDimensions().width)
-  const [yheight,setHeight]=useState(getWindowDimensions().height)
+  const [xwidth,setWidth]=useState(getWindowDimensions().width-200)
+  const [yheight,setHeight]=useState(getWindowDimensions().height-100)
 
   const [randomrgb,setRGB]=useState([0,0,0])
   const ref=useRef(null)
@@ -51,31 +51,34 @@ function App() {
     if(ref.current){
       let z=setInterval(()=>{
         
-        if(leftPos>=xwidth){
-          setX(-2)
+        setLeftPos((prevLeftPos)=>prevLeftPos+x)
+        setTopPos((prevTopPos)=>prevTopPos+y)
+        
+        if(leftPos>=(xwidth-Math.abs(x)) || leftPos<=0){
+
+          if(leftPos>=(xwidth-Math.abs(x))){
+            setX(-2)
+          }
+
+          else{
+            setX(2)
+          }
+
           randomize()
         }
+        if(topPos>=(yheight-Math.abs(y)) || topPos<=0){
+          
+          if(topPos>=(yheight-Math.abs(y))){
+            setY(-2)
+          }
 
-        else if(leftPos<=0){
-          setX(2)
+          else{
+            setY(2)
+          }
+
           randomize()
         }
-
-        setLeftPos(leftPos+x)
-
-        if(topPos>=yheight){
-          setY(-2)
-          randomize()
-        }
-
-        else if(topPos<=0){
-          setY(2)
-          randomize()
-        }
-
-        setTopPos(topPos+y)
-
-      },100)
+      },50)
       
       return()=>clearInterval(z)
     }
