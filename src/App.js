@@ -78,7 +78,7 @@ function App() {
 
           randomize()
         }
-      },50)
+      },10)
       
       return()=>clearInterval(z)
     }
